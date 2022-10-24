@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Notiflix from 'notiflix';
 
-const base_url = 'https://pixabay.com/api/';
+const BASE_URL = 'https://pixabay.com/api/';
 const KEY = '30737350-82f55820a31d3ae852bd21a9d';
 
 export default class FetchImg {
@@ -22,7 +22,7 @@ export default class FetchImg {
       per_page: 40,
     });
     try {
-      const response = await axios.get(`${base_url}?${params}`);
+      const response = await axios.get(`${BASE_URL}?${params}`);
       const { data } = response;
       this.currentHits += data.hits.length;
       if (data.total === 0) {
