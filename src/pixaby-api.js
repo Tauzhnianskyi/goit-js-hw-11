@@ -37,7 +37,7 @@ export default class FetchImg {
       } else if (this.page === 1 && data.totalHits) {
         Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
       }
-
+      console.log(fetchImg());
       this.page += 1;
       return data.hits;
     } catch {

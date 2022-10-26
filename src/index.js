@@ -6,91 +6,100 @@ import FetchImg from './pixaby-api';
 
 import markup from './markup';
 
+import pixaby from './pixaby-api';
+
 const refs = {
-  formEl: document.querySelector('.search-form'),
-  formInputField: document.querySelector('input[name="searchQuery"]'),
-  formBtn: document.querySelector('.searchBtn'),
+  formEL: document.querySelector('.search-form'),
+  inputEl: document.querySelector('input[name="searchQuery"]'),
+  searchBtn: document.querySelector('.searchBtn'),
   imgCard: document.querySelector('.gallery'),
-  preloader: document.querySelectorAll('.loader div'),
 };
 
 const fetchImg = new FetchImg();
 let gallerySimpleLightbox = new SimpleLightbox('.gallery a', {
-  captionsData: 'alt',
+  captionData: 'alt',
   captionDelay: 250,
 });
 
-refs.formEl.addEventListener('submit', onSearchImages);
+console.log(fetchImg);
 
-function onSearchImages(evt) {
-  evt.preventDefault();
+refs.formEL.addEventListener('submit', searchImg);
 
-  fetchImg.inputTitle = evt.currentTarget.elements.searchQuery.value.trim();
+function searchImg(e) {
+  e.preventDefault();
+  fetchImg.inputTitle = e.currentTarget.elements.searchQuery.value.trim();
   resetMarkup();
-
   if (fetchImg.inputTitle === '') {
     Notiflix.Notify.warning('Field must not be empty');
-    refs.formInputField.value = '';
+    refs.inputEl.value = '';
     return;
   }
-
-  refs.preloader.forEach(e => {
-    e.style.display = 'block';
-  });
-
-  fetchImg.resetPage();
-  fetchImg.resetCurrentHits();
-  refs.formInputField.value = '';
-
-  fetchImg
-    .fetchImg()
-    .then(hits => {
-      resetMarkup();
-      refs.imgCard.insertAdjacentHTML('beforeend', markup(hits));
-      gallerySimpleLightbox.refresh();
-      refs.preloader.forEach(e => {
-        e.style.display = 'none';
-      });
-    })
-    .catch(err => {
-      console.log(err);
-      refs.preloader.forEach(e => {
-        e.style.display = 'none';
-        resetMarkup();
-      });
-    });
 }
-
-function onLoadMore() {
-  fetchImg
-    .fetchImg()
-    .then(hits => {
-      refs.imgCard.insertAdjacentHTML('beforeend', markup(hits));
-      gallerySimpleLightbox.refresh();
-      refs.preloader.forEach(e => {
-        e.style.display = 'none';
-      });
-      const { height: cardHeight } =
-        refs.imgCard.firstElementChild.getBoundingClientRect();
-
-      window.scrollBy({
-        top: cardHeight * 2,
-        behavior: 'smooth',
-      });
-    })
-    .catch(err => {
-      console.log(err);
-    });
-}
-
-window.addEventListener('scroll', () => {
-  const documentRect = document.documentElement.getBoundingClientRect();
-
-  if (documentRect.bottom < document.documentElement.clientHeight + 50) {
-    onLoadMore();
-  }
-});
-
 function resetMarkup() {
   refs.imgCard.innerHTML = '';
 }
+
+// function onSearchImages(evt) {
+//   evt.preventDefault();
+
+//   fetchImg.inputTitle = evt.currentTarget.elements.searchQuery.value.trim();
+//   resetMarkup();
+
+//   if (fetchImg.inputTitle === '') {
+//     Notiflix.Notify.warning('Field must not be empty');
+//     refs.formInputField.value = '';
+//     return;
+//   }
+
+//   refs.preloader.forEach(e => {
+//     e.style.display = 'block';
+//   });
+
+//   fetchImg.resetPage();
+//   fetchImg.resetCurrentHits();
+//   refs.formInputField.value = '';
+
+//   fetchImg
+//     .fetchImg()
+//     .then(hits => {
+//       resetMarkup();
+//       refs.imgCard.insertAdjacentHTML('beforeend', markup(hits));
+//       gallerySimpleLightbox.refresh();
+//       refs.preloader.forEach(e => {
+//         e.style.display = 'none';
+//       });
+//     })
+//     .catch(err => {
+//       console.log(err);
+//       refs.preloader.forEach(e => {
+//         e.style.display = 'none';
+//         resetMarkup();
+//       });
+//     });
+// }
+
+// function onLoadMore() {
+//   fetchImg
+//     .fetchImg()
+//     .then(hits => {
+//       refs.imgCard.insertAdjacentHTML('beforeend', markup(hits));
+//       gallerySimpleLightbox.refresh();
+//       refs.preloader.forEach(e => {
+//         e.style.display = 'none';
+//       });
+//       const { height: cardHeight } =
+//         refs.imgCard.firstElementChild.getBoundingClientRect();
+
+//       window.scrollBy({
+//         top: cardHeight * 2,
+//         behavior: 'smooth',
+//       });
+//     })
+//     .catch(err => {
+//       console.log(err);
+//     });
+// }
+
+// function resetMarkup() {
+//   refs.imgCard.innerHTML = '';
+// }
