@@ -4,13 +4,13 @@ import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import debounce from 'lodash.debounce';
 import ClassImg from './pixaby-api';
-import markup from './markup';
+import markup from './template/markup.hbs';
 
 const refs = {
   formEl: document.querySelector('.search-form'),
   input: document.querySelector('input[name="searchQuery"]'),
   card: document.querySelector('.gallery'),
-  infinity: document.querySelectorAll('.loader div'),
+  infinity: document.querySelectorAll('.infinity div'),
 };
 
 const fetchImg = new ClassImg();

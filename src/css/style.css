@@ -33,19 +33,21 @@ button:hover {
   gap: 30px;
 }
 
-.card__info {
+.info-item {
   display: flex;
   align-items: baseline;
-  gap: 20px;
+  flex-direction: column;
   text-align: center;
 }
 
-.card {
+.info {
   border: 2px solid rgba(0, 0, 0, 0.287);
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .card__link {
