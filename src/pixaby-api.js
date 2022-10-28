@@ -1,10 +1,9 @@
 import axios from 'axios';
-import Notiflix from 'notiflix';
 
 const BASE_URL = 'https://pixabay.com/api/';
-const KEY = '30737350-82f55820a31d3ae852bd21a9d';
+const API_KEY = '30150514-c6c2592e7290a81c416aa6291';
 
-export default class FetchImg {
+export default class ClassImg {
   constructor() {
     this.searchInput = '';
     this.page = 1;
@@ -13,7 +12,7 @@ export default class FetchImg {
 
   async fetchImg() {
     const params = new URLSearchParams({
-      key: KEY,
+      key: API_KEY,
       q: this.searchImg,
       image_type: 'photo',
       orientation: 'horizontal',
@@ -21,29 +20,20 @@ export default class FetchImg {
       page: this.page,
       per_page: 40,
     });
-    try {
-      const response = await axios.get(`${BASE_URL}?${params}`);
-      const { data } = response;
-      this.currentHits += data.hits.length;
-      if (data.total === 0) {
-        Notiflix.Notify.failure(
-          'Sorry, there are no images matching your search query. Please try again.'
-        );
-        return;
-      } else if (this.currentHits >= data.totalHits) {
-        Notiflix.Notify.warning(
-          "We're sorry, but you've reached the end of search results."
-        );
-      } else if (this.page === 1 && data.totalHits) {
-        Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
-      }
-      console.log(fetchImg());
-      this.page += 1;
-      return data.hits;
-    } catch {
-      error => console.log(error);
-    }
+
+    const response = await axios.get(`${BASE_URL}?${params}`);
+    const { data } = response;
+
+    this.currentHits += data.hits.length;
+    this.page += 1;
+
+    return data;
   }
+
+  incrementPage() {
+    this.page += 1;
+  }
+
   resetPage() {
     this.page = 1;
   }
@@ -52,11 +42,11 @@ export default class FetchImg {
     this.currentHits = 0;
   }
 
-  get inputTitle() {
+  get inputText() {
     return this.searchImg;
   }
 
-  set inputTitle(newTitle) {
+  set inputText(newTitle) {
     this.searchImg = newTitle;
   }
 }

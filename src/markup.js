@@ -10,25 +10,25 @@ export default function markup(img) {
         comments,
         downloads,
       }) => {
-        return `<div class="card">
-        <div class="card__link"><a href="${largeImageURL}"><img src="${webformatURL}" alt="${tags}" loading="lazy" width='370'/></a></div>
-        <div class="card__info">
-        <div class="card__link-item">
+        return `<div class="photo-card">
+        <a href="${largeImageURL}"><img src="${webformatURL}" alt="${tags}" loading="lazy" width='370'/></a>
+        <div class="info">
+        <div class="info-item">
         <p>
         <b>Likes: </b><br>${likes}
         </p>
         </div>
-        <div class="card__link-item">
+        <div class="info-item">
         <p>
         <b>Views: </b><br>${views}
         </p>
         </div>
-        <div class="card__link-item">
+        <div class="info-item">
         <p>
         <b>Comments: </b><br>${comments}
         </p>
         </div>
-        <div class="card__link-item">
+        <div class="info-item">
         <p>
         <b>Downloads: </b><br>${downloads}
         </p>
